@@ -1,6 +1,6 @@
-import com.gacagebot.botcommands.JoinCommand
-import com.gacagebot.botcommands.LeaveCommand
-import com.gacagebot.botcommands.PlayCommand
+package com.gacagebot.main
+
+import com.gacagebot.botcommands.*
 import com.gacagebot.botevents.EventJoin
 import com.gacagebot.constants.Constants
 import com.gacagebot.gatewaybotintents.BotIntents
@@ -12,7 +12,7 @@ import java.util.*
 
 fun main(args: Array<String>) {
 
-    val jdaBuilder = JDABuilder.create(Constants.BOT_TOKEN, BotIntents.INTENTS)
+    JDABuilder.create(Constants.BOT_TOKEN, BotIntents.INTENTS)
         .setActivity(Activity.playing(Constants.DJ_GCAGE))
         .setStatus(OnlineStatus.ONLINE)
         .disableCache(EnumSet.of(
@@ -24,6 +24,8 @@ fun main(args: Array<String>) {
         .addEventListeners(PlayCommand())
         .addEventListeners(JoinCommand())
         .addEventListeners(LeaveCommand())
+        .addEventListeners(StopCommand())
+        .addEventListeners(SkipCommand())
         .build()
 
 }

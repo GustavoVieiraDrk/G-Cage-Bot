@@ -7,8 +7,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
-class TrackScheduler(private val player: AudioPlayer) : AudioEventAdapter() {
-    private val queue: BlockingQueue<AudioTrack>
+class TrackScheduler(val player: AudioPlayer) : AudioEventAdapter() {
+    val queue: BlockingQueue<AudioTrack>
 
     init {
         queue = LinkedBlockingQueue()
@@ -20,7 +20,7 @@ class TrackScheduler(private val player: AudioPlayer) : AudioEventAdapter() {
         }
     }
 
-    private fun nextTrack() {
+    fun nextTrack() {
         player.startTrack(queue.poll(), false)
     }
 

@@ -31,7 +31,7 @@ class PlayerManager {
         }
     }
 
-    private fun getGuildMusicManger(guild: Guild): GuildMusicManager {
+    fun getGuildMusicManger(guild: Guild): GuildMusicManager {
         return musicManagers.computeIfAbsent(
             guild.idLong
         ) {
@@ -46,14 +46,14 @@ class PlayerManager {
         audioPlayerManager.loadItemOrdered(musicManager, trackUrl, object : AudioLoadResultHandler {
             override fun trackLoaded(track: AudioTrack) {
                 musicManager.scheduler.queue(track)
-                txtChannel.sendMessage("Colequei mais uma na fila" + track.info.title).queue()
+                txtChannel.sendMessage("ColoCAGE mais uma na fila " + track.info.title).queue()
             }
 
             override fun playlistLoaded(playlist: AudioPlaylist) {
                 val trackList = playlist.tracks
                 if (trackList.isNotEmpty()) {
                     musicManager.scheduler.queue(trackList[0])
-                    txtChannel.sendMessage("Colequei mais uma na fila" + trackList[0].info.title).queue()
+                    txtChannel.sendMessage("ColoCAGE mais uma na fila " + trackList[0].info.title).queue()
                 }
             }
 
@@ -61,8 +61,9 @@ class PlayerManager {
                 txtChannel.sendMessage("Consegui achar nada relacionado: " + trackUrl.toString()).queue()
             }
 
-            override fun loadFailed(exception: FriendlyException) {}
+            override fun loadFailed(exception: FriendlyException) { }
 
         })
     }
+
 }

@@ -1,5 +1,6 @@
 package com.gacagebot.botcommands
 
+import com.gacagebot.constants.PrefixCommand
 import com.gacagebot.lavaplayer.PlayerManager
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -15,7 +16,7 @@ class PlayCommand : ListenerAdapter() {
 
         if (!event.isFromGuild) return
         if (event.author.isBot) return
-        if (!event.message.contentRaw.startsWith("gplay")) return
+        if (!event.message.contentRaw.startsWith(PrefixCommand.GPLAY)) return
 
         if (!event.member!!.voiceState!!.inAudioChannel()) {
             event.channel.sendMessage("Vc Não está em um canal de voz dua sua mula").queue()
