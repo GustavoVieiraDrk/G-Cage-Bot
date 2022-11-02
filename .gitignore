@@ -1,3 +1,10 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Project keys/token
+src/main/kotlin/com/gacagebot/constants/Constants.kt
+
 # Compiled class file
 *.class
 
@@ -33,7 +40,7 @@ hs_err_pid*
 /out/
 
 # Meta-INF
-src/main/resources/META-INF/*
+src/main/resources/META-INF
 
 # Cache files
 build/kotlin/*
