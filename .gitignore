@@ -38,6 +38,7 @@ hs_err_pid*
 # Generated files
 /build/
 /out/
+/META-INF/
 
 # Meta-INF
 src/main/resources/META-INF
