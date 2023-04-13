@@ -7,8 +7,12 @@ This project adheres to the: [versionamento semântico](https://semver.org/spec/
 
 ## [Unreleased]
 
-### Adicionado
+### Added
 
 - Initial commit main logic to play a track audio. [Initial-commit](https://github.com/GustavoVieiraDrk/G-Cage-Bot/commit/aab48346f913801ddb47c39c0bcc75d6c0c7c7ed).
 - Command to stop or skip a music track. (PR: [#1](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/1)).
 - Implements a command manager design to make bot music commands easier. (PR: [#2](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/2)).
+
+### Bugfix
+
+- Fix bot disconnect and reconnect to voice channel repeatedly. (PR: [#3](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/3)).
