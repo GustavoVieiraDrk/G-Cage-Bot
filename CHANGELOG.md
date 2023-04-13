@@ -1,13 +1,14 @@
 # Changelog
 
-Todas as mudanças notáveis no projeto serão documentadas nesse arquivo.
+All notable changes to this project should be listed in the changelog file.
 
-Este formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-E este projeto adere ao [versionamento semântico](https://semver.org/spec/v2.0.0.html).
+This design is based in: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+This project adheres to the: [versionamento semântico](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## Adicionado
+### Adicionado
 
 - Initial commit main logic to play a track audio. [Initial-commit](https://github.com/GustavoVieiraDrk/G-Cage-Bot/commit/aab48346f913801ddb47c39c0bcc75d6c0c7c7ed).
 - Command to stop or skip a music track. (PR: [#1](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/1)).
+- Implements a command manager design to make bot music commands easier. (PR: [#2](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/2)).
