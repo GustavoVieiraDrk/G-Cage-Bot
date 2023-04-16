@@ -2,7 +2,7 @@ package com.gacagebot.main
 
 import com.gacagebot.botcommands.*
 import com.gacagebot.botevents.EventJoin
-import com.gacagebot.constants.Constants
+import com.gacagebot.constants.Secrets
 import com.gacagebot.gatewaybotintents.BotIntents
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
@@ -12,8 +12,8 @@ import java.util.*
 
 fun main(args: Array<String>) {
 
-    JDABuilder.create(Constants.BOT_TOKEN, BotIntents.INTENTS)
-        .setActivity(Activity.playing(Constants.DJ_GCAGE))
+    JDABuilder.create(Secrets.BOT_TOKEN.getString, BotIntents.INTENTS)
+        .setActivity(Activity.playing(Secrets.DJ_G_CAGE.getString))
         .setStatus(OnlineStatus.ONLINE)
         .disableCache(EnumSet.of(
             CacheFlag.ACTIVITY,
