@@ -1,9 +1,9 @@
 package com.gacagebot.botcommands
 
 import com.gacagebot.constants.PrefixCommand
-import com.gacagebot.recources.values.strings.Strings
+import com.gacagebot.localizestrings.LocalizeString
+import com.gacagebot.localizestrings.StringId
 import net.dv8tion.jda.api.Permission
-import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
@@ -18,22 +18,22 @@ class JoinCommand : ListenerAdapter() {
         if (!event.message.contentRaw.startsWith(PrefixCommand.GJOIN)) return
 
         if (!event.guild.selfMember.hasPermission(channel, Permission.VOICE_CONNECT)) {
-            channel.sendMessage(Strings.voice_channel_join_denied_message).queue()
+            channel.sendMessage(LocalizeString.get(StringId.FAILED_JOIN_CHANNEL_UNABLE_TO_JOIN_THE_VOICE_CHANNEL.id)).queue()
             return
         }
         val connectedChannel = event.guild.selfMember.voiceState
         if (connectedChannel == null) {
-            channel.sendMessage(Strings.not_connected_voice_channel_message).queue()
+            channel.sendMessage(LocalizeString.get(StringId.FAILED_JOIN_CHANNEL_YOU_NOT_IN_VOICE_CHANNEL.id)).queue()
             return
         }
         val audioManager = event.guild.audioManager
         if (audioManager.isConnected) {
-            channel.sendMessage(Strings.already_joined_in_voice_channel_message).queue()
+            channel.sendMessage(LocalizeString.get(StringId.FAILED_JOIN_CHANNEL_BOT_IS_ALREADY_IN_THIS_CHANNEL.id)).queue()
             return
         }
         val memberVoiceChannel = event.member?.voiceState?.channel
         audioManager.openAudioConnection(memberVoiceChannel)
-        channel.sendMessage(Strings.connected_voice_channel_message).queue()
+        channel.sendMessage(LocalizeString.get(StringId.JOIN_VOICE_CHANNEL.id)).queue()
     }
 
 }

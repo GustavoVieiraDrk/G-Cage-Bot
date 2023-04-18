@@ -1,14 +1,13 @@
-package com.gacagebot.recources.values.strings
+package com.gacagebot.localizestrings
 
-class Strings {
+import java.util.ResourceBundle
+import java.util.Locale
 
-    companion object {
-        const val first_join_server_message: String = "!!! Vermes que só faz peso na Terra !!!"
-        const val voice_channel_join_denied_message: String = "Não tenho permissão para entrar nessa canal de voz"
-        const val already_joined_in_voice_channel_message: String = "Voce não ta conectado em um canal de voz BURRO BURRO BURRO BURRO"
-        const val connected_voice_channel_message: String = "Conectei no canal"
-        const val not_connected_voice_channel_message: String = "Ta tentando me disconectar de que?"
-        const val leave_from_voice_channel_message: String = "hahahaha vo caga"
+object LocalizeString {
+    private const val RESOURCE_BASE_NAME = "values.strings"
+    private val resourceBundle = ResourceBundle.getBundle(RESOURCE_BASE_NAME, Locale.getDefault())
+
+    fun get(stringId: String): String {
+        return resourceBundle.getString(stringId) ?: "Error: Failed to get string"
     }
-
 }

@@ -1,7 +1,8 @@
 package com.gacagebot.botcommands
 
 import com.gacagebot.constants.PrefixCommand
-import com.gacagebot.recources.values.strings.Strings
+import com.gacagebot.localizestrings.LocalizeString
+import com.gacagebot.localizestrings.StringId
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
@@ -23,7 +24,7 @@ class LeaveCommand : ListenerAdapter() {
     }
 
     private fun onLeaveChannelAction(event: MessageReceivedEvent) {
-        event.guildChannel.sendMessage(Strings.leave_from_voice_channel_message).queue()
+        event.guildChannel.sendMessage(LocalizeString.get(StringId.LEAVE_FROM_VOICE_CHANNEL.id)).queue()
         event.guild.audioManager.closeAudioConnection()
     }
 

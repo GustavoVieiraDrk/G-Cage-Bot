@@ -1,7 +1,8 @@
 package com.gacagebot.botevents
 
 import com.gacagebot.constants.Secrets
-import com.gacagebot.recources.values.strings.Strings
+import com.gacagebot.localizestrings.LocalizeString
+import com.gacagebot.localizestrings.StringId
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
@@ -12,7 +13,7 @@ class EventJoin : ListenerAdapter() {
         event
             .guild
             .getTextChannelById(Secrets.CHANNEL_ID.getString)
-            ?.sendMessage(Strings.first_join_server_message)
+            ?.sendMessage(LocalizeString.get(StringId.MEETINGS_FIRST_JOIN_IN_THE_SERVER.id))
     }
 
 }
