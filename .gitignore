@@ -3,7 +3,7 @@
 /workspace.xml
 
 # Project keys/token
-src/main/kotlin/com/gacagebot/constants/Constants.kt
+src/main/kotlin/com/gacagebot/constants/Secrets.kt
 
 # Compiled class file
 *.class
