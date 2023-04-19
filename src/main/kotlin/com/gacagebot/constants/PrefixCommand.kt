@@ -1,7 +1,6 @@
 package com.gacagebot.constants
 
 class PrefixCommand {
-
     companion object {
         const val GJOIN: String = "gjoin"
         const val GPLAY: String = "gplay"
