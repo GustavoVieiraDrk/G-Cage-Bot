@@ -1,12 +1,12 @@
 package com.gacagebot.constants
 
-class PrefixCommand {
-    companion object {
-        const val GJOIN: String = "gjoin"
-        const val GPLAY: String = "gplay"
-        const val GSTOP: String = "gstop"
-        const val GSKIP: String = "gskip"
-        const val GLEAVE: String = "gleave"
-    }
-
+enum class PrefixCommand(val command: String) {
+    PREFIX("g"),
+    JOIN("join"),
+    PLAY("play"),
+    STOP("stop"),
+    SKIP("skip"),
+    PAUSE("pause"),
+    RESUME("resume"),
+    LEAVE("leave");
 }

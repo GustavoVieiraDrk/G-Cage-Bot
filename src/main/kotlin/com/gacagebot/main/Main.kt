@@ -4,6 +4,7 @@ import com.gacagebot.botcommands.*
 import com.gacagebot.botevents.EventJoin
 import com.gacagebot.constants.Secrets
 import com.gacagebot.gatewaybotintents.BotIntents
+import com.gacagebot.listeners.EventListenerAdapter
 import com.gacagebot.localizestrings.LocalizeString
 import com.gacagebot.localizestrings.StringId
 import net.dv8tion.jda.api.JDABuilder
@@ -22,12 +23,8 @@ fun main(args: Array<String>) {
             CacheFlag.EMOJI
         ))
         .enableCache(CacheFlag.VOICE_STATE)
+        .addEventListeners(EventListenerAdapter())
         .addEventListeners(EventJoin())
-        .addEventListeners(PlayCommand())
-        .addEventListeners(JoinCommand())
-        .addEventListeners(LeaveCommand())
-        .addEventListeners(StopCommand())
-        .addEventListeners(SkipCommand())
         .build()
 
 }
