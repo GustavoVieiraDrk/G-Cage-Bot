@@ -1,37 +1,48 @@
 package com.gacagebot.botcommands
 
+import com.gacagebot.commandmanager.BotCommand
+import com.gacagebot.commandmanager.BotCommandContextImpl
 import com.gacagebot.constants.PrefixCommand
 import com.gacagebot.lavaplayer.PlayerManager
+import com.gacagebot.localizestrings.LocalizeString
+import com.gacagebot.localizestrings.StringId
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction
 
-class SkipCommand : ListenerAdapter() {
+class SkipCommand : BotCommand {
 
-    private lateinit var txtChannel: MessageChannelUnion
+    override fun handle(commandContext: BotCommandContextImpl) {
+        val txtChannel = commandContext.getChannel()
+        val event = commandContext.getEvent()
+        val memberVoiceStater = commandContext.getMember()?.voiceState ?: return
+        val musicManager = PlayerManager.newInstance()?.getGuildMusicManger(event.guild) ?: return
+        val audioPlayer = musicManager.player
 
-    override fun onMessageReceived(event: MessageReceivedEvent) {
-        super.onMessageReceived(event)
-        txtChannel = event.channel
         if (!event.isFromGuild) return
-        if (event.author.isBot) return
-        if (!event.message.contentRaw.startsWith(PrefixCommand.GSKIP)) return
-
-        if (!event.member!!.voiceState!!.inAudioChannel()) {
-            displayBotMessage("Vc não está em um canal de voz")
+        if (!memberVoiceStater.inAudioChannel()) {
+            displayMessage(txtChannel, LocalizeString.get(StringId.FAILED_COMMAND_YOU_NOT_IN_VOICE_CHANNEL.id))
+            return
+        }
+        if (audioPlayer.playingTrack == null) {
+            displayMessage(txtChannel, LocalizeString.get(StringId.FAILED_SKIP_NO_TRACK_PLAYING.id))
             return
         }
 
-        val musicManager = PlayerManager.newInstance()?.getGuildMusicManger(event.guild)
-        val audioPlayer = musicManager?.player
-
-        if (audioPlayer?.playingTrack == null) {
-            displayBotMessage("Ta surdo, tem nada tocando")
-        }
-        musicManager?.scheduler?.nextTrack()
+        musicManager.scheduler.nextTrack()
+        displayMessage(txtChannel, LocalizeString.get(StringId.SUCCESS_SKIP_TRACK_MESSAGE.id))
     }
 
-    private fun displayBotMessage(message: String) {
+    override fun getCommandName(): String {
+        return PrefixCommand.SKIP.command
+    }
+
+    override fun getHelpMessage(): String {
+        return LocalizeString.get(StringId.HELP_COMMAND_SKIP_MESSAGE.id)
+    }
+
+    override fun displayMessage(txtChannel: MessageChannelUnion, message: String) {
         txtChannel.sendMessage(message).queue()
     }
 

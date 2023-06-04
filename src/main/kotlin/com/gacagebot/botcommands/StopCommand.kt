@@ -1,35 +1,43 @@
 package com.gacagebot.botcommands
 
+import com.gacagebot.commandmanager.BotCommand
+import com.gacagebot.commandmanager.BotCommandContextImpl
 import com.gacagebot.constants.PrefixCommand
 import com.gacagebot.lavaplayer.PlayerManager
+import com.gacagebot.localizestrings.LocalizeString
+import com.gacagebot.localizestrings.StringId
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
-class StopCommand : ListenerAdapter() {
+class StopCommand : BotCommand {
+    override fun handle(commandContext: BotCommandContextImpl) {
+        val txtChannel = commandContext.getChannel()
+        val event = commandContext.getEvent()
+        val voiceStateMember = commandContext.getMember()?.voiceState ?: return
+        val musicManager = PlayerManager.newInstance()?.getGuildMusicManger(event.guild) ?: return
 
-    private lateinit var txtChannel: MessageChannelUnion
-
-    override fun onMessageReceived(event: MessageReceivedEvent) {
-        super.onMessageReceived(event)
-        txtChannel = event.channel
         if (!event.isFromGuild) return
-        if (event.author.isBot) return
-        if (!event.message.contentRaw.startsWith(PrefixCommand.GSTOP)) return
-
-        if (!event.member!!.voiceState!!.inAudioChannel()) {
-            displayBotMessage("Vc não está em um canal de voz")
+        if (!voiceStateMember.inAudioChannel()) {
+            displayMessage(txtChannel, LocalizeString.get(StringId.FAILED_COMMAND_YOU_NOT_IN_VOICE_CHANNEL.id))
             return
         }
 
-        val musicManager = PlayerManager.newInstance()?.getGuildMusicManger(event.guild)
-        musicManager?.scheduler?.player?.stopTrack()
-        musicManager?.scheduler?.queue?.clear()
+        musicManager.scheduler.player.stopTrack()
+        musicManager.scheduler.queue.clear()
 
-        displayBotMessage("Parei as musicas que estavam tocando e limpei a playlist")
+        displayMessage(txtChannel, LocalizeString.get(StringId.PLAYBACK_QUEUE_IS_EMPTY_CLEAR.id))
     }
 
-    private fun displayBotMessage(message: String) {
+    override fun getCommandName(): String {
+        return PrefixCommand.STOP.command
+    }
+
+    override fun getHelpMessage(): String {
+        return LocalizeString.get(StringId.HELP_COMMAND_STOP_MESSAGE.id)
+    }
+
+    override fun displayMessage(txtChannel: MessageChannelUnion, message: String) {
         txtChannel.sendMessage(message).queue()
     }
 

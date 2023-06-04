@@ -1,38 +1,56 @@
 package com.gacagebot.botcommands
 
+import com.gacagebot.commandmanager.BotCommand
+import com.gacagebot.commandmanager.BotCommandContextImpl
 import com.gacagebot.constants.PrefixCommand
 import com.gacagebot.lavaplayer.PlayerManager
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import net.dv8tion.jda.api.hooks.ListenerAdapter
-import net.dv8tion.jda.api.managers.AudioManager
+import com.gacagebot.localizestrings.LocalizeString
+import com.gacagebot.localizestrings.StringId
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion
 import java.net.URI
 import java.net.URISyntaxException
 
-class PlayCommand : ListenerAdapter() {
+class PlayCommand : BotCommand {
 
-    override fun onMessageReceived(event: MessageReceivedEvent) {
-        super.onMessageReceived(event)
-        val audioManager: AudioManager = event.guild.audioManager
+    override fun handle(commandContext: BotCommandContextImpl) {
+        val txtChannel = commandContext.getChannel()
+        val selfVoiceState = commandContext.getSelfMember()?.voiceState ?: return
+        val memberVoiceState = commandContext.getMember()?.voiceState ?: return
+        val audioManager = commandContext.getGuild().audioManager
 
-        if (!event.isFromGuild) return
-        if (event.author.isBot) return
-        if (!event.message.contentRaw.startsWith(PrefixCommand.GPLAY)) return
-
-        if (!event.member!!.voiceState!!.inAudioChannel()) {
-            event.channel.sendMessage("Vc Não está em um canal de voz dua sua mula").queue()
+        if (commandContext.getArgs().isEmpty()) {
+            displayMessage(txtChannel, LocalizeString.get(StringId.HELP_COMMAND_PLAY_MESSAGE.id))
             return
         }
 
-        var link = event.message.contentRaw.split(" ", ignoreCase = false, limit = 2).last()
-
-        if (!isUrl(link)) {
-            link = "ytsearch: ".plus(link).plus(" audio")
+        if (!memberVoiceState.inAudioChannel()) {
+            displayMessage(txtChannel, LocalizeString.get(StringId.FAILED_COMMAND_YOU_NOT_IN_VOICE_CHANNEL.id))
+            return
         }
 
-        val memberVoiceChannel = event.member?.voiceState?.channel
-        audioManager.openAudioConnection(memberVoiceChannel)
+        var link = commandContext.getArgs().joinToString(" ")
 
-        PlayerManager.newInstance()?.loadAndPlay(event.channel.asTextChannel(), link)
+        if (!isUrl(link)) {
+            link = "ytsearch: ".plus(link)
+            audioManager.openAudioConnection(memberVoiceState.channel)
+            PlayerManager.newInstance()?.loadAndPlay(txtChannel.asTextChannel(), link, false)
+            return
+        }
+
+        audioManager.openAudioConnection(memberVoiceState.channel)
+        PlayerManager.newInstance()?.loadAndPlay(txtChannel.asTextChannel(), link, true)
+    }
+
+    override fun getCommandName(): String {
+        return PrefixCommand.PLAY.command
+    }
+
+    override fun getHelpMessage(): String {
+        return LocalizeString.get(StringId.HELP_COMMAND_PLAY_MESSAGE.id)
+    }
+
+    override fun displayMessage(txtChannel: MessageChannelUnion, message: String) {
+        txtChannel.sendMessage(message).queue()
     }
 
     private fun isUrl(url: String) : Boolean {
