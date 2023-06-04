@@ -41,7 +41,7 @@ class PlayerManager {
         }
     }
 
-    fun loadAndPlay(txtChannel: TextChannel, trackUrl: String?) {
+    fun loadAndPlay(txtChannel: TextChannel, trackUrl: String?, isPlaylist: Boolean) {
         val musicManager = getGuildMusicManger(txtChannel.guild)
         audioPlayerManager.loadItemOrdered(musicManager, trackUrl, object : AudioLoadResultHandler {
             override fun trackLoaded(track: AudioTrack) {
@@ -50,10 +50,19 @@ class PlayerManager {
             }
 
             override fun playlistLoaded(playlist: AudioPlaylist) {
+                if (isPlaylist) {
+                    for (track in playlist.tracks) {
+                        if (track != null) {
+                            musicManager.scheduler.queue(track)
+                        }
+                    }
+                    txtChannel.sendMessage("Quem foi o corno que colocou uma playlist de " + playlist.tracks.size.toString() + " Musicas?").queue()
+                    return
+                }
                 val trackList = playlist.tracks
                 if (trackList.isNotEmpty()) {
-                    musicManager.scheduler.queue(trackList[0])
-                    txtChannel.sendMessage("ColoCAGE mais uma na fila " + trackList[0].info.title).queue()
+                    musicManager.scheduler.queue(trackList.first())
+                    txtChannel.sendMessage("ColoCAGE mais uma na fila " + trackList.first().info.title).queue()
                 }
             }
 
