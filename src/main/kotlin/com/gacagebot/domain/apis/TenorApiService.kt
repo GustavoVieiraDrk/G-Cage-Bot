@@ -15,14 +15,4 @@ interface TenorApiService {
         @Query("limit") limit: Int,
         @Query("random") random: Boolean
     ): Single<TenorApiResponse>
-
-//    @GET("v2/search")
-//    fun getTenorApiResults(
-//        @Query("q") query: String,
-//        @Query("key") apiKey: String,
-//        @Query("vaicurinthias") vaicurinthias: String,
-//        @Query("limit") limit: Int,
-//        @Query("random") random: Boolean
-//    ): Response<List<TenorResult>>
-
 }

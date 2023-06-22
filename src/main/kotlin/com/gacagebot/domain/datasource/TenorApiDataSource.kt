@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object TenorApiDataSource : TenorApiRepository{
 
     private var tenorApiService: TenorApiService
-    private val BASE_TENOR_URL_API = "https://tenor.googleapis.com/v2/"
+    private const val BASE_TENOR_URL_API = "https://tenor.googleapis.com/v2/"
 
     init {
         val retrofit = Retrofit.Builder()
