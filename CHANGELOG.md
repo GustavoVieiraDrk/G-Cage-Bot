@@ -15,6 +15,7 @@ This project adheres to the: [versionamento semântico](https://semver.org/spec/
 - Update README.md and add removed file by accidentally. (PR: [#4](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/4)).
 - Strings.properties to use as a localize strings to show bot messages. (PR: [#5](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/5)).
 - Use BotCommandManager to handle botCommands typed by users. (PR: [#8](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/8))
+- gcage command to get a Nicolas Cage Gif or search for a Gif in Tenor api. (PR: [#9](https://github.com/GustavoVieiraDrk/G-Cage-Bot/pull/9))
 
 ### Bugfix
 

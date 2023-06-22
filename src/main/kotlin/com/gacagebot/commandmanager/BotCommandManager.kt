@@ -10,6 +10,7 @@ class BotCommandManager {
     private val commandList: ArrayList<BotCommand> = ArrayList()
 
     init {
+        addCommand(GCageCommand())
         addCommand(JoinCommand())
         addCommand(LeaveCommand())
         addCommand(PlayCommand())
