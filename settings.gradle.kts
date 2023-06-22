@@ -1,3 +1,3 @@
 
-rootProject.name = "G-Cage-Bot"
+rootProject.name = "g-cage-bot"
 
